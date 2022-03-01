@@ -1,0 +1,19 @@
+[
+  {
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "password": "12346789aA",
+    "database": "yolo",
+    "synchronize": false,
+    "entities": ["dist/**/*.entity.{ts,js}"],
+    "migrationsTableName": "migrations",
+    "migrations": ["dist/**/migration/*.{js,ts}"],
+    "seeds": ["dist/database/seeds/**/*.seed{.ts,.js}"],
+    "factories": ["dist/database/factories/**/*.factory{.ts,.js}"],
+    "cli": {
+      "migrationsDir": "src/migration"
+    }
+  }
+]
