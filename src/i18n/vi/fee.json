@@ -1,0 +1,15 @@
+{
+  "CREATE_CATEGORY_SUCCESS": "Tạo danh mục phí thành công",
+  "CREATE_CATEGORY_FAIL": "Tạo danh mục phí thất bại",
+  "UPDATE_CATEGORY_SUCCESS": "Cập nhật danh mục phí thành công",
+  "UPDATE_CATEGORY_FAIL": "Cập nhật danh mục phí thất bại",
+  "UPDATE_CATEGORY_EXIST": "Tên danh mục phí này đã tồn tại",
+  "CREATE_FEE_SUCCESS": "Tạo phí thành công",
+  "CREATE_FEE_FAIL": "Tạo phí thất bại",
+  "UPDATE_FEE_SUCCESS": "Sửa phí thành công",
+  "UPDATE_FEE_FAIL": "Sửa phí thất bại",
+  "FEE_NON_EXISTED": "Phí không tồn tại",
+  "CHANGE_STATUS_FEE_SUCCESS": "Đổi trạng thái phí thành công",
+  "CHANGE_STATUS_FEE_FAIL": "Đổi trạng thái phí thất bại",
+  "CATEGORY_DUPLICATE": "Loại phí không được trùng nhau"
+}

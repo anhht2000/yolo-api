@@ -1,0 +1,10 @@
+{
+  "CREATE_SUCCESS": "Tạo mới phản hồi thành công",
+  "CREATE_FAIL": "Tạo mới phản hồi thất bại",
+  "STATUS_CANCEL": "Chỉ được hủy phản hồi khi trạng thái mới hoặc đang chờ",
+  "CHANGE_STATUS_SUCCESS": "Đổi trạng thái của phản hồi thành công",
+  "CHANGE_STATUS_FAIL": "Đổi trạng thái của phản hồi thất bại",
+  "CREATE_COMMENT_SUCCESS": "Bình luận thành công",
+  "CREATE_COMMENT_FAIL": "Bình luận thất bại",
+  "GET_FAIL": "Lấy thông tin phản hồi thất bại"
+}

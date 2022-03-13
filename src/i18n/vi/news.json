@@ -1,0 +1,16 @@
+{
+    "CREATE_SUCCESS": "Tạo mới bảng tin thành công",
+    "CREATE_FAIL": "Tạo mới bảng tin thất bại",
+    "STATUS_CANCEL": "Chỉ được hủy bảng tin khi trạng thái mới hoặc đang chờ",
+    "CHANGE_STATUS_SUCCESS": "Đổi trạng thái của bảng tin thành công",
+    "CHANGE_STATUS_FAIL": "Đổi trạng thái của bảng tin thất bại",
+    "CREATE_COMMENT_SUCCESS": "Bình luận thành công",
+    "CREATE_COMMENT_FAIL": "Bình luận thất bại",
+    "GET_FAIL": "Lấy thông tin bảng tin thất bại",
+    "NOT_FOUND": "Không tìm thấy bảng tin",
+    "STATUS_NOT_EXIST": "Trạng thái không đúng",
+    "DELETE_SUCCESS": "Xóa bảng tin thành công",
+    "DELETE_FAIL": "Xóa bảng tin thất bại",
+    "UPDATE_SUCCESS": "Cập nhật bảng tin thành công"
+  }
+  

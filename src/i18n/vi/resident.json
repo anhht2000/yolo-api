@@ -1,0 +1,14 @@
+{
+  "CREATE_RESIDENT_SUCCESS": "Tạo mới cư dân thành công",
+  "CREATE_RESIDENT_FAIL": "Tạo mới cư dân thất bại",
+  "CREATE_RESIDENT_WITH_EXISTED": "Một số trường phải là duy nhất",
+  "EDIT_RESIDENT_SUCCESS": "Sửa cư dân thành công",
+  "EDIT_RESIDENT_FAIL": "Sửa cư dân thất bại",
+  "EDIT_RESIDENT_WITH_EXISTED": "Một số trường phải là duy nhất",
+  "CHANGE_STATUS_RESIDENT_SUCCESS": "Sửa trạng thái cư dân thành công",
+  "CHANGE_STATUS_RESIDENT_FAIL": "Sửa trạng thái cư dân thất bại",
+  "DELETE_RESIDENT_SUCCESS": "Xóa cư dân thành công",
+  "DELETE_RESIDENT_FAIL": "Xóa cư dân thất bại",
+  "DELETE_RESIDENT_FAIL_NON_EXIST": "Xóa cư dân thất bại vì cư dân đã ở trạng thái hoạt động",
+  "NON_RESIDENT": "Cư dân không tồn tại"
+}

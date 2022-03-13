@@ -1,0 +1,18 @@
+{
+  "LOGIN_VALIDATE_FAIL": "You must transmit data ",
+  "LOGIN_UNAUTHORIZATION": "Unauthorization",
+  "TOKEN_NON_EXIST": "Token don't exist",
+  "INVALID_REFRESH_TOKEN": "Invalid refresh token",
+  "INVALID_EMAIL": "Invalid email",
+  "EMAIL_NON_EXISTED": "Email non-existed",
+  "CHANGE_PASS_SUCCESS": "Change password successfully",
+  "CHANGE_PASS_FAIL": "Change password fail",
+  "SEND_EMAIL_SUCCESS": "Please check your email to change password",
+  "EMAIL_TOKEN_NONE_EXISTED": "OTP none existed",
+  "EMAIL_TOKEN_EXPRIRED": "OPT was exprired time",
+  "CHECK_OTP_SUCCESS": "Confirm OTP successfully",
+  "LOG_OUT_SUCCESS": "Logout successfully",
+  "GET_RESIDENT_FAIL": "Show list resident fail",
+  "CONFIRM_PASSWORD_FAIL": "The current password is invalid",
+  "CHANGE_PASSWORD_SUCCESS": "Change password successfully"
+}

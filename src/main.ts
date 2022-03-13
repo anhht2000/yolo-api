@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from './errors/http-exception.filter';
 // import { HttpExceptionFilter } from './errors/http-exception.filter';
 
 async function bootstrap() {
@@ -18,7 +19,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({}));
-  // app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Building`s Api')

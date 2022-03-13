@@ -1,0 +1,11 @@
+{
+  "NAME_EXISTED": "Tên tòa nhà này phải là duy nhất",
+  "CREATE_SUCCESS": "Tạo tòa thành công",
+  "CREATE_FAIL": "Tạo tòa thất",
+  "UPDATE_SUCCESS": "Sửa tòa thành công",
+  "UPDATE_FAIL": "Sửa tòa thất bại",
+  "BUILDING_WORKING_CAN_NOT_DELETE": "Chung cư đã đi vào hoạt động, không thể xóa tòa nhà",
+  "DELETE_SUCCESS": "Xóa tòa thành công",
+  "NON_EXIST": "Tòa nhà không tồn tại",
+  "ROOM_NON_EXIST": "Phòng  không tồn tại"
+}

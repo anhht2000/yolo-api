@@ -1,0 +1,11 @@
+{
+  "CAN_NOT_EDIT": "Trạng thái hiện tại của yêu cầu không thể cập nhật",
+  "CANCEL_SUCCESSFULLY": "Huỷ bỏ yêu cầu thành công",
+  "UPDATE_SUCCESSFULLY": "Cập nhật thông tin yêu cầu thành công",
+  "CREATE_SUCCESSFULLY": "Tạo mới yêu cầu thành công",
+  "STATUS_CANCEL": "Đổi trạng thái của yêu cầu thành hủy phải có lý do",
+  "STATUS_CANCEL_PERMISSTION": "Chỉ có thể đổi trạng thái của yêu cầu từ mới hoặc chờ duyệt sang hủy bỏ",
+  "STATUS_CLOSE": "Đổi trạng thái của yêu cầu thành đóng phải có mô tả và ảnh",
+  "CHANGE_STATUS_SUCCESSFULLY": "Đổi trạng thái yêu cầu thành công",
+  "CHANGE_STATUS_FAIL": "Đổi trạng thái yêu cầu thất bại"
+}
