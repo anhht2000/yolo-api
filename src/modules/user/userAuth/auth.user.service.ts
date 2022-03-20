@@ -13,7 +13,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../entities/User.entity';
 
 @Injectable()
-export class AuthService {
+export class AuthUserService {
   constructor(
     private usersService: UserService,
     private jwtService: JwtService,
@@ -21,7 +21,7 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
-    const user: Partial<User> = await this.usersService.findOne({
+    const user: Partial<User> = await this.usersService.findUser({
       select: ['email', 'password'],
       where: { email, status: UserStatus.ACTIVE },
     });

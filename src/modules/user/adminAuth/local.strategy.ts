@@ -8,12 +8,15 @@ import { PassportStrategy } from '@nestjs/passport';
 import { I18nLang, I18nService } from 'nestjs-i18n';
 import { Strategy } from 'passport-local';
 import ResponseData from 'src/common/ClassResponseData';
-import { AuthService } from './auth.service';
+import { AuthAdminService } from './auth.admin.service';
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy, 'user_local') {
+export class LocalAdminStrategy extends PassportStrategy(
+  Strategy,
+  'admin_local',
+) {
   constructor(
-    private authService: AuthService,
+    private authService: AuthAdminService,
     private readonly i18n: I18nService,
   ) {
     super();

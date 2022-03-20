@@ -10,8 +10,13 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async findOne(options: FindOneOptions) {
+  async findUser(options: FindOneOptions) {
     // return await this.usersRepository.findOne(options);
-    return { email: 'tuan', password: 'ojsdofijsd' };
+    return { email: 'user', password: 'ojsdofijsd' };
+  }
+
+  async findAdmin(options: FindOneOptions) {
+    // return await this.usersRepository.findOne(options);
+    return { email: 'admin', password: 'ojsdofijsd' };
   }
 }

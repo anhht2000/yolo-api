@@ -15,10 +15,10 @@ import { loginDTO } from '../dtos/login.dto';
 import { UserService } from '../services/user.service';
 import { LocalUserAuthGuard } from '../userAuth/guards/local.guard';
 
-@Controller('v1/user')
-@ApiTags('[User]')
+@Controller('v1/user/auth')
+@ApiTags('[Authentication] User')
 @ApiHeader({ name: 'Accept-Language', enum: ['vi', 'en'] })
-export class UserController {
+export class AuthUserController {
   constructor(
     private authService: AuthUserService,
     private userService: UserService,

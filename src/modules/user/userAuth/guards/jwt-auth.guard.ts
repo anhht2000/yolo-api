@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('user_jwt') {
+export class JwtUserAuthGuard extends AuthGuard('user_jwt') {
   canActivate(context: ExecutionContext) {
     return super.canActivate(context);
   }
