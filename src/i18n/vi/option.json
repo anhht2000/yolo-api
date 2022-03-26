@@ -1,0 +1,19 @@
+{
+  "LOGIN_BUILDING_IS_INACTIVE": "Bạn tạm thời không đăng nhập được vì chung cư dừng hoạt động",
+  "GET_OPTION_SUCCESS": "Lấy danh mục thành công",
+  "GET_LIST_OPTION_SUCCESS": "Lấy danh sách danh mục thành công",
+  "GET_OPTION_FAIL": "Lấy danh sách danh mục thất bại",
+  "GET_LIST_OPTION_FAIL": "Lấy danh mục thất bại",
+  "CREATE_OPTION_SUCCESS": "Tạo mới danh mục thành công",
+  "CREATE_OPTION_FAIL": "Tạo mới danh mục thất bại",
+  "UPDATE_OPTION_SUCCESS": "Cập nhật danh mục thành công",
+  "UPDATE_OPTION_FAIL": "Cập nhật danh mục thất bại",
+  "DELETE_OPTION_SUCCESS": "Xóa danh mục thành công",
+  "DELETE_OPTION_FAIL": "Xóa danh mục thất bại",
+  "CREATE_VALUE_SUCCESS": "Tạo mới nội dung danh mục thành công",
+  "CREATE_VALUE_FAIL": "Tạo mới nội dung danh mục thất bại",
+  "UPDATE_VALUE_SUCCESS": "Cập nhật nội dung danh mục thành công",
+  "UPDATE_VALUE_FAIL": "Cập nhật nội dung danh mục thất bại",
+  "DELETE_VALUE_SUCCESS": "Xóa nội dung danh mục thành công",
+  "DELETE_VALUE_FAIL": "Xóa nội dung danh mục thất bại"
+}

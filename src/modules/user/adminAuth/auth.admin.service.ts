@@ -25,7 +25,6 @@ export class AuthAdminService {
       select: ['email', 'password'],
       where: { email, status: UserStatus.ACTIVE },
     });
-    console.log('admin', admin);
 
     if (!admin) {
       throw new HttpException(
