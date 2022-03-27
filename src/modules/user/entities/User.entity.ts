@@ -1,26 +1,21 @@
-import { Receipt } from './../../receipt/entities/Receipt.entity';
 import * as bcrypt from 'bcrypt';
 import {
-  AfterUpdate,
   BeforeInsert,
-  BeforeUpdate,
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  DeleteDateColumn,
-  AfterInsert,
   UpdateDateColumn,
-  CreateDateColumn,
-  Unique,
-  ManyToOne,
-  JoinColumn,
 } from 'typeorm';
-import { Gender, UserStatus } from '../interfaces';
+import { Gender } from '../interfaces';
+import { Receipt } from './../../receipt/entities/Receipt.entity';
 import { RefreshToken } from './RefeshToken.entity';
 import { Role } from './Role.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity('users')
 export class User {
@@ -116,5 +111,6 @@ export class User {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(password || this.password, salt);
     this.password = hash;
+    this.user_code = uuidv4();
   }
 }
