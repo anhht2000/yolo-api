@@ -1,4 +1,6 @@
+import { ProductLabel } from './../../configs/product';
 import faker from '@faker-js/faker';
+import { ProductStatus } from 'src/configs/product';
 import { Option } from 'src/modules/option/entities/Option.entity';
 import { OptionValue } from 'src/modules/option/entities/OptionValue.entity';
 import { ProductOption } from 'src/modules/option/entities/ProductOption.entity';
@@ -14,6 +16,14 @@ export default class CreateProducts implements Seeder {
     })) {
       const data: Partial<Product> = {
         name: faker.commerce.product(),
+        status:
+          faker.random.arrayElement[
+            (ProductStatus.PUBLIC, ProductStatus.PRIVATE, ProductStatus.SELLOUT)
+          ],
+        label:
+          faker.random.arrayElement[
+            (ProductLabel.BESTSELLER, ProductLabel.NEW, ProductLabel.POPULAR)
+          ],
         description: faker.commerce.productDescription(),
       };
       const value = new Product();

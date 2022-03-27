@@ -1,4 +1,6 @@
+import { ProductLabel } from './../../../configs/product';
 import * as slug from 'slug';
+import { ProductStatus } from 'src/configs/product';
 import { ProductOption } from 'src/modules/option/entities/ProductOption.entity';
 import { ReceiptProduct } from 'src/modules/receipt/entities/ReceiptProduct.entity';
 import {
@@ -28,6 +30,20 @@ export class Product {
 
   @Column()
   description: string;
+
+  @Column({
+    type: 'enum',
+    enum: ProductStatus,
+    default: ProductStatus.PUBLIC,
+  })
+  status: ProductStatus;
+
+  @Column({
+    type: 'enum',
+    enum: ProductLabel,
+    default: ProductLabel.NEW,
+  })
+  label: ProductLabel;
 
   @CreateDateColumn()
   created_at: Date;

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { GetAllOption } from 'src/configs/option';
@@ -73,9 +73,14 @@ export class OptionService {
     try {
       queryRunner.manager.delete(Option, { id: optionId });
       await queryRunner.commitTransaction();
-    } catch {
-      await queryRunner.rollbackTransaction();
-      return false;
+    } catch (error) {
+      if (error instanceof HttpException) {
+        await queryRunner.rollbackTransaction();
+        throw new HttpException(error.message, error.getStatus());
+      } else {
+        await queryRunner.rollbackTransaction();
+        return false;
+      }
     } finally {
       await queryRunner.release();
     }
