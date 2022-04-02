@@ -7,7 +7,12 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { GetAllProductOption } from 'src/configs/product';
-import { getConnection, Repository, SelectQueryBuilder } from 'typeorm';
+import {
+  FindOneOptions,
+  getConnection,
+  Repository,
+  SelectQueryBuilder,
+} from 'typeorm';
 import { updateProductDTO } from '../dtos/UpdateProduct.dto';
 import { Product } from '../entities/Product.entity';
 import { createProductDTO } from './../dtos/CreateProduct.dto';
@@ -43,7 +48,11 @@ export class ProductService {
     return product;
   }
 
-  async getAllOption(searchOptions: GetAllProductOption) {
+  findOne(options: FindOneOptions) {
+    return this.productRepository.findOne(options);
+  }
+
+  async getAllProduct(searchOptions: GetAllProductOption) {
     const join = {
       alias: 'product',
       // leftJoinAndSelect: {

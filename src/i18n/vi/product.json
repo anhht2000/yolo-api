@@ -1,0 +1,18 @@
+{
+  "GET_OPTION_SUCCESS": "Lấy danh mục thành công",
+  "GET_LIST_OPTION_SUCCESS": "Lấy danh sách danh mục thành công",
+  "GET_OPTION_FAIL": "Lấy danh sách danh mục thất bại",
+  "GET_LIST_OPTION_FAIL": "Lấy danh mục thất bại",
+  "CREATE_PRODUCT_SUCCESS": "Tạo mới sản phẩm thành công",
+  "CREATE_PRODUCT_FAIL": "Tạo mới sản phẩm thất bại",
+  "UPDATE_PRODUCT_SUCCESS": "Cập nhật sản phẩm thành công",
+  "UPDATE_PRODUCT_FAIL": "Cập nhật sản phẩm thất bại",
+  "DELETE_PRODUCT_SUCCESS": "Xóa sản phẩm thành công",
+  "DELETE_PRODUCT_FAIL": "Xóa sản phẩm thất bại",
+  "CREATE_VALUE_SUCCESS": "Tạo mới nội dung danh mục thành công",
+  "CREATE_VALUE_FAIL": "Tạo mới nội dung danh mục thất bại",
+  "UPDATE_VALUE_SUCCESS": "Cập nhật nội dung danh mục thành công",
+  "UPDATE_VALUE_FAIL": "Cập nhật nội dung danh mục thất bại",
+  "DELETE_VALUE_SUCCESS": "Xóa nội dung danh mục thành công",
+  "DELETE_VALUE_FAIL": "Xóa nội dung danh mục thất bại"
+}

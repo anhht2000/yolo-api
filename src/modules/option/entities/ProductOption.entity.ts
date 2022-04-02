@@ -11,6 +11,7 @@ import {
 import * as slug from 'slug';
 import { Option } from './Option.entity';
 import { Product } from 'src/modules/product/entities/Product.entity';
+import { ReceiptProduct } from 'src/modules/receipt/entities/ReceiptProduct.entity';
 
 @Entity('product_option')
 export class ProductOption {
@@ -31,4 +32,11 @@ export class ProductOption {
   @ManyToOne(() => OptionValue, (value) => value.product_options)
   @JoinColumn({ name: 'value_id' })
   value: OptionValue;
+
+  @OneToMany(
+    () => ReceiptProduct,
+    (receipt_product) => receipt_product.product_option,
+  )
+  @JoinColumn({ name: 'receipt_product_id' })
+  receipt_products: ReceiptProduct[];
 }

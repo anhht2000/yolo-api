@@ -1,4 +1,3 @@
-import { createProductDTO } from './../dtos/CreateProduct.dto';
 import {
   Body,
   Controller,
@@ -12,26 +11,18 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import {
-  ApiBody,
-  ApiHeader,
-  ApiParam,
-  ApiQuery,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { Response } from 'express';
 import { I18nLang, I18nService } from 'nestjs-i18n';
 import ResponseData from 'src/common/ClassResponseData';
-import { GetAllProductOption } from 'src/configs/product';
-import { ProductService } from '../services/product.service';
-import { updateProductDTO } from '../dtos/UpdateProduct.dto';
+import { createReceiptDTO } from '../dtos/CreateReceipt.dto';
+import { updateReceiptDTO } from '../dtos/UpdateReceipt.dto';
+import { ReceiptService } from '../services/receipt.service';
 
-@Controller('v1/admin/product')
-@ApiTags('[Admin] Product')
-@ApiHeader({ name: 'Accept-Language', enum: ['vi', 'en'] })
-export class ProductController {
+@Controller('receipt')
+export class ReceiptController {
   constructor(
-    private productService: ProductService,
+    private receiptService: ReceiptService,
     private readonly i18n: I18nService,
   ) {}
 
@@ -50,13 +41,13 @@ export class ProductController {
   ) {
     const limit = parseInt(req.query.limit || process.env.DEFAUT_PERPAGE);
     const page = parseInt(req.query.page || process.env.DEFAUT_PAGE);
-    const searchOptions: GetAllProductOption = {
+    const searchOptions: any = {
       page,
       limit,
       name: req.query.name,
     };
 
-    const [data, total] = await this.productService.getAllProduct(
+    const [data, total] = await this.receiptService.getAllReceipt(
       searchOptions,
     );
 
@@ -76,14 +67,14 @@ export class ProductController {
   }
 
   @Post()
-  @ApiBody({ type: createProductDTO })
+  @ApiBody({ type: createReceiptDTO })
   async create(
     @Req() req,
     @Res() res: Response,
-    @Body() body: createProductDTO,
+    @Body() body: createReceiptDTO,
     @I18nLang() lang: string,
   ) {
-    const product = await this.productService.create(body);
+    const product = await this.receiptService.create(req.user.username, body);
 
     if (product) {
       const response = new ResponseData(
@@ -104,50 +95,22 @@ export class ProductController {
     );
   }
 
-  @Get('/:id')
-  @ApiParam({ name: 'id', description: 'Mã của danh muc' })
-  async getOne(
-    @Req() req,
-    @Res() res: Response,
-    @Param() { id },
-    @I18nLang() lang: string,
-  ) {
-    const product = await this.productService.findOne(id);
-
-    if (product) {
-      const response = new ResponseData(
-        true,
-        {
-          product,
-        },
-        null,
-      );
-      return res.status(HttpStatus.OK).json(response);
-    }
-
-    throw new HttpException(
-      await this.i18n.translate('product.UPDATE_PRODUCT_FAIL'),
-      HttpStatus.UNPROCESSABLE_ENTITY,
-    );
-  }
-
   @Put('/:id')
-  @ApiParam({ name: 'id', description: 'Mã của danh muc' })
-  @ApiBody({ type: updateProductDTO })
+  @ApiBody({ type: updateReceiptDTO })
   async update(
     @Req() req,
     @Res() res: Response,
-    @Body() body: updateProductDTO,
+    @Body() body: updateReceiptDTO,
     @Param() { id },
     @I18nLang() lang: string,
   ) {
-    const product = await this.productService.update(id, body);
+    const product = await this.receiptService.update(id, body);
 
     if (product) {
       const response = new ResponseData(
         true,
         {
-          message: await this.i18n.translate('product.UPDATE_PRODUCT_SUCCESS', {
+          message: await this.i18n.translate('receipt.UPDATE_RECEIPT_SUCCESS', {
             lang,
           }),
         },
@@ -157,7 +120,7 @@ export class ProductController {
     }
 
     throw new HttpException(
-      await this.i18n.translate('product.UPDATE_PRODUCT_FAIL'),
+      await this.i18n.translate('receipt.UPDATE_RECEIPT_FAIL'),
       HttpStatus.UNPROCESSABLE_ENTITY,
     );
   }
@@ -170,13 +133,13 @@ export class ProductController {
     @Param() { id },
     @I18nLang() lang: string,
   ) {
-    const isDelete = await this.productService.delete(id);
+    const isDelete = await this.receiptService.delete(id);
 
     if (isDelete) {
       const response = new ResponseData(
         true,
         {
-          message: await this.i18n.translate('product.DELETE_PRODUCT_SUCCESS', {
+          message: await this.i18n.translate('receipt.DELETE_RECEIPT_SUCCESS', {
             lang,
           }),
         },
@@ -186,7 +149,7 @@ export class ProductController {
     }
 
     throw new HttpException(
-      await this.i18n.translate('product.DELETE_PRODUCT_FAIL'),
+      await this.i18n.translate('receipt.DELETE_RECEIPT_FAIL'),
       HttpStatus.UNPROCESSABLE_ENTITY,
     );
   }

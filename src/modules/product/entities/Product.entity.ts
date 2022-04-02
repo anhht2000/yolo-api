@@ -60,13 +60,6 @@ export class Product {
   @OneToMany(() => ProductOption, (product_option) => product_option.product)
   product_options: ProductOption[];
 
-  @ManyToOne(
-    () => ReceiptProduct,
-    (receipt_product) => receipt_product.products,
-  )
-  @JoinColumn({ name: 'receipt_product_id' })
-  receipt_product: ReceiptProduct;
-
   @BeforeInsert()
   async setCode(name: string) {
     this.product_code = slug(this.name || name);
