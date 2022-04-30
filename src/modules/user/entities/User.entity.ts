@@ -11,7 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Gender } from '../interfaces';
+import { Gender, UserStatus } from '../interfaces';
 import { Receipt } from './../../receipt/entities/Receipt.entity';
 import { RefreshToken } from './RefeshToken.entity';
 import { Role } from './Role.entity';
@@ -56,6 +56,13 @@ export class User {
   @Column({ unique: true })
   id_card: string;
 
+  @Column({
+    type: 'enum',
+    enum: UserStatus,
+    default: UserStatus.ACTIVE,
+  })
+  status: UserStatus;
+
   @Column({ type: 'date' })
   date_of_birth: Date;
 
@@ -77,34 +84,6 @@ export class User {
 
   @OneToMany(() => Receipt, (receipt) => receipt.user)
   receipts: Receipt[];
-
-  // @ManyToMany(() => Building, (building) => building.users)
-  // @JoinTable({
-  //   name: 'user_building',
-  //   joinColumn: {
-  //     name: 'user_id',
-  //     referencedColumnName: 'id',
-  //   },
-  //   inverseJoinColumn: {
-  //     name: 'building_id',
-  //     referencedColumnName: 'id',
-  //   },
-  // })
-  // buildings: Building[];
-
-  // @ManyToMany(() => Role, (role) => role.users)
-  // @JoinTable({
-  //   name: 'user_role',
-  //   joinColumn: {
-  //     name: 'user_id',
-  //     referencedColumnName: 'id',
-  //   },
-  //   inverseJoinColumn: {
-  //     name: 'role_id',
-  //     referencedColumnName: 'id',
-  //   },
-  // })
-  // roles: Role[];
 
   @BeforeInsert()
   async setPassword(password: string) {

@@ -1,3 +1,4 @@
+import { Role } from './entities/Role.entity';
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthAdminController } from './controllers/admin.auth.controller';
@@ -10,7 +11,7 @@ import { AuthModule as AuthAdminModule } from './adminAuth/auth.admin.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Role]),
     forwardRef(() => AuthUserModule),
     forwardRef(() => AuthAdminModule),
   ],
