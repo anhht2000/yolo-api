@@ -8,6 +8,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,6 +17,7 @@ import { Receipt } from './../../receipt/entities/Receipt.entity';
 import { RefreshToken } from './RefeshToken.entity';
 import { Role } from './Role.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { Cart } from 'src/modules/cart/entities/Cart.entity';
 
 @Entity('users')
 export class User {
@@ -78,6 +80,9 @@ export class User {
   @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'role_id' })
   role: Role;
+
+  @OneToOne(() => Cart, (cart) => cart.user)
+  cart: Cart;
 
   @OneToMany(() => RefreshToken, (refresh_token) => refresh_token.user)
   refresh_token: RefreshToken[];

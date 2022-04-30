@@ -18,6 +18,9 @@ export class ReceiptProduct {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  quantity: number;
+
   @ManyToOne(() => Receipt, (receipt) => receipt.receipt_products)
   @JoinColumn({ name: 'receipt_id' })
   receipt: Receipt;

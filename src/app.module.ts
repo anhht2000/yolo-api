@@ -5,6 +5,7 @@ import { I18nJsonParser, I18nModule, QueryResolver } from 'nestjs-i18n';
 import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CartModule } from './modules/cart/cart.module';
 import { FileModule } from './modules/file/file.module';
 import { OptionModule } from './modules/option/option.module';
 import { ProductModule } from './modules/product/product.module';
@@ -25,6 +26,7 @@ import { UserModule } from './modules/user/user.module';
       resolvers: [{ use: QueryResolver, options: ['lang', 'locale', 'l'] }],
     }),
     UserModule,
+    CartModule,
     ProductModule,
     OptionModule,
     ReceiptModule,
