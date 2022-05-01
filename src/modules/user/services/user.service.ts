@@ -24,9 +24,7 @@ export class UserService {
       last_name,
       address,
       gender,
-      avatar,
       phone,
-      id_card,
       date_of_birth,
     } = data;
     const user = new User();
@@ -37,9 +35,7 @@ export class UserService {
       last_name,
       address,
       gender,
-      avatar,
       phone,
-      id_card,
       date_of_birth,
     });
 
@@ -62,6 +58,9 @@ export class UserService {
     if (isAdmin) {
       const adminRole = await this.rolesRepository.findOne({
         where: { name: ROLES.USER },
+      });
+      const isExist = await this.usersRepository.findOne({
+        where: { email: data?.email, role: { id: 1 } },
       });
       user.role = adminRole;
     } else {

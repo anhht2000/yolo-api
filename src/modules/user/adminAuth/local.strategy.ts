@@ -52,6 +52,7 @@ export class LocalAdminStrategy extends PassportStrategy(
       throw new UnauthorizedException(response);
     }
     const tets = user;
+
     return tets;
   }
 }

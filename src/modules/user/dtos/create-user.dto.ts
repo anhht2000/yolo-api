@@ -3,12 +3,12 @@ import { IsDateString, IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
 import { Gender } from 'src/configs/enum';
 
 export class CreateUserDTO {
-  @ApiProperty({ default: 'tuan@gmail.com' })
+  @ApiProperty({ default: 'anhht@admin.com' })
   @IsNotEmpty()
   @IsEmail()
   email: string;
 
-  @ApiProperty({ default: '123456' })
+  @ApiProperty({ default: '12345678' })
   @IsNotEmpty()
   password: string;
 
@@ -29,19 +29,19 @@ export class CreateUserDTO {
   @IsEnum(Gender)
   gender: Gender;
 
-  @ApiProperty({
-    type: 'file',
-    required: false,
-  })
-  avatar?: string;
+  // @ApiProperty({
+  //   type: 'file',
+  //   required: false,
+  // })
+  // avatar?: string;
 
   @ApiProperty({ default: '0994545878' })
   @IsNotEmpty()
   phone: string;
 
-  @ApiProperty({ default: '2000879546541' })
-  @IsNotEmpty()
-  id_card: string;
+  // @ApiProperty({ default: '2000879546541' })
+  // @IsNotEmpty()
+  // id_card: string;
 
   @ApiProperty({ default: '2000-12-14' })
   @IsNotEmpty()

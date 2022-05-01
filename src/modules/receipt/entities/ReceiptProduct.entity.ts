@@ -25,7 +25,7 @@ export class ReceiptProduct {
   @JoinColumn({ name: 'receipt_id' })
   receipt: Receipt;
 
-  @OneToMany(
+  @ManyToOne(
     () => ProductOption,
     (productOption) => productOption.receipt_products,
   )

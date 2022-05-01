@@ -19,14 +19,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from 'src/modules/user/entities/User.entity';
+import { CartProduct } from './CartProduct.entity';
 
 @Entity('carts')
 export class Cart {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  quantity: number;
 
   @Column()
   note: string;
@@ -44,7 +42,6 @@ export class Cart {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToMany(() => ProductOption, (product_option) => product_option.carts)
-  @JoinTable()
-  product_options: ProductOption[];
+  @OneToMany((cart_product) => CartProduct, (user) => user.cart)
+  cart_products: CartProduct[];
 }

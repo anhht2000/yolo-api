@@ -10,5 +10,6 @@
   "UPDATE_ADMIN_SUCCESS": "Cập nhật quản trị viên thành công",
   "UPDATE_ADMIN_FAIL": "Cập nhật quản trị viên thất bại",
   "DELETE_ADMIN_SUCCESS": "Xóa quản trị viên thành công",
-  "DELETE_ADMIN_FAIL": "Xóa quản trị viên thất bại"
+  "DELETE_ADMIN_FAIL": "Xóa quản trị viên thất bại",
+  "EMAIL_NON_EXISTED": "Email này không tồn tại"
 }
