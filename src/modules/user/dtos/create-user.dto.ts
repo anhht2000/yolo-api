@@ -39,9 +39,9 @@ export class CreateUserDTO {
   @IsNotEmpty()
   phone: string;
 
-  // @ApiProperty({ default: '2000879546541' })
-  // @IsNotEmpty()
-  // id_card: string;
+  @ApiProperty({ default: '2000879546541' })
+  @IsNotEmpty()
+  id_card: string;
 
   @ApiProperty({ default: '2000-12-14' })
   @IsNotEmpty()

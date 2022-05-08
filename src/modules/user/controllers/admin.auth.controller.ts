@@ -39,7 +39,7 @@ export class AuthAdminController {
     const response = new ResponseData(
       true,
       {
-        user: this.authService.login(req.user),
+        // user: this.authService.login(req.user),
         token,
       },
       null,
@@ -47,16 +47,20 @@ export class AuthAdminController {
     return res.status(HttpStatus.OK).json(response);
   }
 
-  @Post('login')
-  @UseGuards(LocalUserAuthGuard)
-  @ApiBody({ type: loginDTO })
-  async login(@Req() req, @Res() res: Response, @I18nLang() lang: string) {
-    const token = (await this.authService.login(req.user))?.access_token;
+  @Post('register')
+  @ApiBody({ type: CreateUserDTO })
+  async register(
+    @Req() req,
+    @Body() body,
+    @Res() res: Response,
+    @I18nLang() lang: string,
+  ) {
+    const user = await this.userService.create(body, true);
     const response = new ResponseData(
       true,
       {
-        user: this.authService.login(req.user),
-        token,
+        message: await this.i18n.translate('user.CREATE_USER_SUCCESS'),
+        user: user,
       },
       null,
     );

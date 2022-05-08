@@ -52,10 +52,10 @@ export class User {
   @Column({ nullable: true })
   avatar: string;
 
-  @Column({ unique: true })
+  @Column()
   phone: string;
 
-  @Column({ unique: true })
+  @Column()
   id_card: string;
 
   @Column({

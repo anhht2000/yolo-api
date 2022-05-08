@@ -18,7 +18,7 @@ export default class CreateProducts implements Seeder {
         name: faker.commerce.product(),
         status:
           faker.random.arrayElement[
-            (ProductStatus.PUBLIC, ProductStatus.PRIVATE, ProductStatus.SELLOUT)
+            (ProductStatus.PUBLIC, ProductStatus.PRIVATE, ProductStatus.DRAFT)
           ],
         label:
           faker.random.arrayElement[

@@ -70,6 +70,12 @@ export class ProductService {
 
     return this.productRepository.findAndCount({
       join,
+      relations: [
+        'images',
+        'product_options',
+        'product_options.option',
+        'product_options.value',
+      ],
       where,
       order: {
         id: 'DESC',
@@ -88,7 +94,7 @@ export class ProductService {
       //create product
       product = await queryRunner.manager.save(product);
       //create product image
-      for (const image of images) {
+      for (const image of JSON.parse(images)) {
         const { path, id } = image;
         const dataImage = await queryRunner.manager.findOne(ProductImage, {
           where: { id: id },
@@ -102,7 +108,7 @@ export class ProductService {
         await queryRunner.manager.save(dataImage);
       }
       //create product option
-      for (const optionData of options) {
+      for (const optionData of JSON.parse(options)) {
         const { valueId, optionId, price, productOtionId } = optionData;
         const value = await queryRunner.manager.findOne(OptionValue, {
           where: { id: valueId },
@@ -144,6 +150,7 @@ export class ProductService {
       await queryRunner.manager.delete(ProductImage, { product: productId });
       await queryRunner.manager.delete(Product, { id: productId });
       await queryRunner.commitTransaction();
+      return true;
     } catch (error) {
       if (error instanceof HttpException) {
         await queryRunner.rollbackTransaction();
@@ -160,13 +167,15 @@ export class ProductService {
   async create(data: createProductDTO) {
     let product = await this.asignProduct(data, false, null);
     const { options, images } = data;
+
     const queryRunner = getConnection().createQueryRunner();
     await queryRunner.startTransaction();
     try {
       //create product
       product = await queryRunner.manager.save(product);
+
       //create product image
-      for (const image of images) {
+      for (const image of JSON.parse(images)) {
         const data: Partial<ProductImage> = {
           path: image,
           fullpath: image,
@@ -176,8 +185,9 @@ export class ProductService {
         Object.assign(dataImage, data);
         await queryRunner.manager.save(dataImage);
       }
+
       //create product option
-      for (const optionData of options) {
+      for (const optionData of JSON.parse(options)) {
         const { valueId, optionId, price } = optionData;
         const value = await queryRunner.manager.findOne(OptionValue, {
           where: { id: valueId },
@@ -195,7 +205,10 @@ export class ProductService {
         Object.assign(dataOption, data);
         await queryRunner.manager.save(dataOption);
       }
+
       await queryRunner.commitTransaction();
+
+      return true;
     } catch (error) {
       if (error instanceof HttpException) {
         await queryRunner.rollbackTransaction();

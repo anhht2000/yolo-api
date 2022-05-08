@@ -94,10 +94,13 @@ export class AuthUserController {
   @UseGuards(LocalUserAuthGuard)
   @ApiBody({ type: loginDTO })
   async login(@Req() req, @Res() res: Response, @I18nLang() lang: string) {
+    const token = (await this.authService.login(req.user))?.access_token;
+
     const response = new ResponseData(
       true,
       {
-        user: this.authService.login(req.user),
+        // user: this.authService.login(req.user),
+        token,
       },
       null,
     );

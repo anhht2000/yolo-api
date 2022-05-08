@@ -2,11 +2,12 @@ import { ReceiptProduct } from './../../receipt/entities/ReceiptProduct.entity';
 import { Receipt } from './../../receipt/entities/Receipt.entity';
 import { ROLES } from './../../../configs/roles';
 import { Role } from './../entities/Role.entity';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, getConnection, Repository } from 'typeorm';
 import { CreateUserDTO } from '../dtos/create-user.dto';
 import { User } from '../entities/User.entity';
+import { I18nService } from 'nestjs-i18n';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
     private usersRepository: Repository<User>,
     @InjectRepository(Role)
     private rolesRepository: Repository<Role>,
+    private readonly i18n: I18nService,
   ) {}
   asignUser(data: CreateUserDTO) {
     const {
@@ -25,6 +27,7 @@ export class UserService {
       address,
       gender,
       phone,
+      id_card,
       date_of_birth,
     } = data;
     const user = new User();
@@ -36,6 +39,7 @@ export class UserService {
       address,
       gender,
       phone,
+      id_card,
       date_of_birth,
     });
 
@@ -57,16 +61,59 @@ export class UserService {
 
     if (isAdmin) {
       const adminRole = await this.rolesRepository.findOne({
-        where: { name: ROLES.USER },
+        where: { name: ROLES.ADMIN },
       });
-      const isExist = await this.usersRepository.findOne({
+      const isExistEmail = await this.usersRepository.findOne({
+        relations: ['role'],
         where: { email: data?.email, role: { id: 1 } },
       });
+
+      const isExistPhone = await this.usersRepository.findOne({
+        relations: ['role'],
+        where: { phone: data?.phone, role: { id: 1 } },
+      });
+      console.log('isExistPhone', isExistPhone);
+
+      if (isExistEmail) {
+        throw new HttpException(
+          await this.i18n.translate('user.EMAIL_EXISTED'),
+          HttpStatus.UNPROCESSABLE_ENTITY,
+        );
+      }
+      if (isExistPhone) {
+        throw new HttpException(
+          await this.i18n.translate('user.PHONE_EXISTED'),
+          HttpStatus.UNPROCESSABLE_ENTITY,
+        );
+      }
+
       user.role = adminRole;
     } else {
       const userRole = await this.rolesRepository.findOne({
         where: { name: ROLES.USER },
       });
+      const isExistEmail = await this.usersRepository.findOne({
+        relations: ['role'],
+        where: { email: data?.email, role: { id: 2 } },
+      });
+      const isExistPhone = await this.usersRepository.findOne({
+        relations: ['role'],
+        where: { phone: data?.phone, role: { id: 2 } },
+      });
+
+      if (isExistEmail) {
+        throw new HttpException(
+          await this.i18n.translate('user.EMAIL_EXISTED'),
+          HttpStatus.UNPROCESSABLE_ENTITY,
+        );
+      }
+      if (isExistPhone) {
+        throw new HttpException(
+          await this.i18n.translate('user.PHONE_EXISTED'),
+          HttpStatus.UNPROCESSABLE_ENTITY,
+        );
+      }
+
       user.role = userRole;
     }
 

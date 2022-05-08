@@ -5,9 +5,9 @@ export interface GetAllProductOption {
 }
 
 export enum ProductStatus {
-  SELLOUT = 'SELLOUT',
-  PUBLIC = 'PUBLIC',
-  PRIVATE = 'PRIVATE',
+  DRAFT = 'draft',
+  PUBLIC = 'published',
+  PRIVATE = 'pending',
 }
 
 export enum ProductLabel {

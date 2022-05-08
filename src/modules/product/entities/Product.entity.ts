@@ -39,11 +39,9 @@ export class Product {
   status: ProductStatus;
 
   @Column({
-    type: 'enum',
-    enum: ProductLabel,
-    default: ProductLabel.NEW,
+    default: JSON.stringify([ProductLabel.NEW]),
   })
-  label: ProductLabel;
+  label: string;
 
   @CreateDateColumn()
   created_at: Date;

@@ -15,17 +15,20 @@ export class createProductDTO {
 
   @ApiProperty({
     required: true,
-    default: ['https://picsum.photos/200/300', 'https://picsum.photos/200/300'],
+    default: JSON.stringify([
+      'https://picsum.photos/200/300',
+      'https://picsum.photos/200/300',
+    ]),
   })
   @IsNotEmpty()
-  images: string[];
+  images: string;
 
   @ApiProperty({
     required: true,
-    default: [],
+    default: JSON.stringify([{ valueId: 1, optionId: 1, price: 200000 }]),
   })
   @IsNotEmpty()
-  options: Options[];
+  options: string;
 
   @ApiProperty({
     required: true,
@@ -39,9 +42,7 @@ export class createProductDTO {
   @ApiProperty({
     required: true,
     default: ProductLabel.NEW,
-    enum: ProductLabel,
   })
   @IsNotEmpty()
-  @IsEnum(ProductLabel)
-  label: ProductLabel;
+  label: any;
 }
