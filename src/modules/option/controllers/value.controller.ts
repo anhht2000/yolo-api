@@ -46,12 +46,13 @@ export class ValueController {
     @Body() body: createValueDTO,
     @I18nLang() lang: string,
   ) {
-    const value = await this.valueService.createOptionValue(body);
+    const values = await this.valueService.createOptionValue(body);
 
-    if (value) {
+    if (values) {
       const response = new ResponseData(
         true,
         {
+          values,
           message: await this.i18n.translate('option.CREATE_VALUE_SUCCESS', {
             lang,
           }),
@@ -77,12 +78,13 @@ export class ValueController {
     @Param() { id },
     @I18nLang() lang: string,
   ) {
-    const value = await this.valueService.updateOptionValue(id, body);
+    const values = await this.valueService.updateOptionValue(id, body);
 
-    if (value) {
+    if (values) {
       const response = new ResponseData(
         true,
         {
+          values,
           message: await this.i18n.translate('option.UPDATE_VALUE_SUCCESS', {
             lang,
           }),

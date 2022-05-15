@@ -18,6 +18,7 @@ import { CartProduct } from 'src/modules/cart/entities/CartProduct.entity';
 
 @Entity('product_option')
 export class ProductOption {
+  [x: string]: any;
   @PrimaryGeneratedColumn()
   id: number;
 

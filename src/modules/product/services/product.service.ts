@@ -94,21 +94,74 @@ export class ProductService {
       //create product
       product = await queryRunner.manager.save(product);
       //create product image
-      for (const image of JSON.parse(images)) {
-        const { path, id } = image;
-        const dataImage = await queryRunner.manager.findOne(ProductImage, {
-          where: { id: id },
-        });
-        const data: Partial<ProductImage> = {
-          path: path,
-          fullpath: path,
-          product,
-        };
-        Object.assign(dataImage, data);
-        await queryRunner.manager.save(dataImage);
+      const updateImageId = JSON.parse(images)
+        .map((e) => {
+          if (e.id) {
+            return e.id;
+          }
+        })
+        .filter((e) => e);
+      const productImageId = await queryRunner.manager.find(ProductImage, {
+        where: { product: { id: productId } },
+      });
+      const dataImageRemove = productImageId
+        .map((e) => e.id)
+        .filter((x) => !updateImageId.includes(x));
+
+      for (const dt of dataImageRemove) {
+        await queryRunner.manager.delete(ProductImage, dt);
       }
+      for (const image of JSON.parse(images)) {
+        if (typeof image === 'object') {
+          const { path, id } = image;
+          const dataImage = await queryRunner.manager.findOne(ProductImage, {
+            where: { id: id },
+          });
+          const data: Partial<ProductImage> = {
+            path: path,
+            fullpath: path,
+            product,
+          };
+          Object.assign(dataImage, data);
+          await queryRunner.manager.save(dataImage);
+        } else {
+          const data: Partial<ProductImage> = {
+            path: image,
+            fullpath: image,
+            product,
+          };
+          const imageNew = new ProductImage();
+          Object.assign(imageNew, data);
+          await queryRunner.manager.save(imageNew);
+        }
+      }
+
       //create product option
-      for (const optionData of JSON.parse(options)) {
+
+      const updateProductId = JSON.parse(options)
+        .map((e) => {
+          if (e.productOtionId) {
+            return e.productOtionId;
+          }
+        })
+        .filter((e) => e);
+      const productOptionListId = await queryRunner.manager.find(
+        ProductOption,
+        {
+          where: { product: { id: productId } },
+        },
+      );
+      const dataBitch = productOptionListId
+        .map((e) => e.id)
+        .filter((x) => !updateProductId.includes(x));
+
+      for (const dt of dataBitch) {
+        await queryRunner.manager.delete(ProductOption, dt);
+      }
+
+      for (const optionData of JSON.parse(options).filter((e) => {
+        if (Object.keys(e).length > 0 && e.optionId && e.valueId) return e;
+      })) {
         const { valueId, optionId, price, productOtionId } = optionData;
         const value = await queryRunner.manager.findOne(OptionValue, {
           where: { id: valueId },
@@ -116,20 +169,39 @@ export class ProductService {
         const option = await queryRunner.manager.findOne(Option, {
           where: { id: optionId },
         });
-        const productOtion = await queryRunner.manager.findOne(ProductOption, {
-          where: { id: productOtionId },
-        });
-        const data: Partial<ProductOption> = {
-          value,
-          option,
-          product,
-          price,
-        };
-        Object.assign(productOtion, data);
-        await queryRunner.manager.save(productOtion);
+        if (!!productOtionId) {
+          const productOtion = await queryRunner.manager.findOne(
+            ProductOption,
+            {
+              where: { id: productOtionId },
+            },
+          );
+
+          const data: Partial<ProductOption> = {
+            value,
+            option,
+            product,
+            price: price || 0,
+          };
+          Object.assign(productOtion, data);
+          await queryRunner.manager.save(productOtion);
+        } else {
+          const data: Partial<ProductOption> = {
+            value,
+            option,
+            product,
+            price: price || 0,
+          };
+          const productOptionData = new ProductOption();
+          Object.assign(productOptionData, data);
+          await queryRunner.manager.save(productOptionData);
+        }
       }
       await queryRunner.commitTransaction();
+      return true;
     } catch (error) {
+      console.log('errr', error);
+
       if (error instanceof HttpException) {
         await queryRunner.rollbackTransaction();
         throw new HttpException(error.message, error.getStatus());

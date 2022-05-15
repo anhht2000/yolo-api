@@ -143,7 +143,10 @@ export class OptionController {
     @Param() { id },
     @I18nLang() lang: string,
   ) {
-    const option = await this.optionService.getOption(id);
+    const option = await this.optionService.getOption({
+      relations: ['values'],
+      where: { id },
+    });
 
     if (option) {
       const response = new ResponseData(

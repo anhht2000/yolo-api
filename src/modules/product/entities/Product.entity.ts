@@ -39,7 +39,7 @@ export class Product {
   status: ProductStatus;
 
   @Column({
-    default: JSON.stringify([ProductLabel.NEW]),
+    default: ProductLabel.NEW,
   })
   label: string;
 

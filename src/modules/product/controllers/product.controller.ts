@@ -112,7 +112,15 @@ export class ProductController {
     @Param() { id },
     @I18nLang() lang: string,
   ) {
-    const product = await this.productService.findOne(id);
+    const product = await this.productService.findOne({
+      relations: [
+        'images',
+        'product_options',
+        'product_options.option',
+        'product_options.value',
+      ],
+      where: { id },
+    });
 
     if (product) {
       const response = new ResponseData(
