@@ -39,11 +39,9 @@ export class Product {
   status: ProductStatus;
 
   @Column({
-    type: 'enum',
-    enum: ProductLabel,
     default: ProductLabel.NEW,
   })
-  label: ProductLabel;
+  label: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -59,13 +57,6 @@ export class Product {
 
   @OneToMany(() => ProductOption, (product_option) => product_option.product)
   product_options: ProductOption[];
-
-  @ManyToOne(
-    () => ReceiptProduct,
-    (receipt_product) => receipt_product.products,
-  )
-  @JoinColumn({ name: 'receipt_product_id' })
-  receipt_product: ReceiptProduct;
 
   @BeforeInsert()
   async setCode(name: string) {

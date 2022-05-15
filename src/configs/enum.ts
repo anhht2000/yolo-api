@@ -28,6 +28,11 @@ export enum Gender {
   FEMALE = 'female',
 }
 
+export enum OptionType {
+  COLOR = 'color',
+  TEXT = 'text',
+}
+
 export enum BuildingStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',

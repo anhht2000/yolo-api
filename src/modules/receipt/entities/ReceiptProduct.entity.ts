@@ -1,3 +1,4 @@
+import { ProductOption } from './../../option/entities/ProductOption.entity';
 import { Product } from 'src/modules/product/entities/Product.entity';
 import { User } from 'src/modules/user/entities/User.entity';
 import {
@@ -17,10 +18,16 @@ export class ReceiptProduct {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  quantity: number;
+
   @ManyToOne(() => Receipt, (receipt) => receipt.receipt_products)
   @JoinColumn({ name: 'receipt_id' })
   receipt: Receipt;
 
-  @OneToMany(() => Product, (product) => product.receipt_product)
-  products: Product[];
+  @ManyToOne(
+    () => ProductOption,
+    (productOption) => productOption.receipt_products,
+  )
+  product_option: ProductOption;
 }

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import * as slug from 'slug';
 import { ProductOption } from './ProductOption.entity';
+import { OptionType } from 'src/configs/enum';
 
 @Entity('options')
 export class Option {
@@ -19,6 +20,9 @@ export class Option {
 
   @Column()
   name: string;
+
+  @Column({ type: 'enum', enum: OptionType, default: OptionType.TEXT })
+  type: OptionType;
 
   @OneToMany(() => OptionValue, (value) => value.option)
   values: OptionValue[];

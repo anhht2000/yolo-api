@@ -22,8 +22,8 @@ export class AuthAdminService {
 
   async validateUser(email: string, pass: string): Promise<any> {
     const admin: Partial<User> = await this.usersService.findAdmin({
-      select: ['email', 'password'],
-      where: { email, status: UserStatus.ACTIVE },
+      select: ['email', 'password', 'role'],
+      where: { email, role: { id: 1 }, status: UserStatus.ACTIVE },
     });
 
     if (!admin) {
@@ -32,14 +32,16 @@ export class AuthAdminService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    // const isTrue = await bcrypt.compare(pass, user.password);
-    // if (!isTrue) {
-    //   throw new HttpException(
-    //     await this.i18n.translate('user.PASSWORD_INVALID'),
-    //     HttpStatus.UNPROCESSABLE_ENTITY,
-    //   );
-    // }
-    const isTrue = true;
+    const isTrue = await bcrypt.compare(pass, admin.password);
+    console.log('a', isTrue);
+
+    if (!isTrue) {
+      throw new HttpException(
+        await this.i18n.translate('user.PASSWORD_INVALID'),
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+    // const isTrue = true;
     if (admin && isTrue) {
       const { password, ...result } = admin;
 

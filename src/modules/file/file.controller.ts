@@ -79,8 +79,6 @@ export class FileController {
     @Res() response: Response,
     @I18nLang() lang: string,
   ) {
-    console.log(file);
-
     let responeData = new ResponseData(
       true,
       {
@@ -145,8 +143,6 @@ export class FileController {
     @Res() response: Response,
     @I18nLang() lang: string,
   ) {
-    console.log(file);
-
     let responeData = new ResponseData(
       true,
       {

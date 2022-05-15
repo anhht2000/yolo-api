@@ -2,19 +2,29 @@ import { createProductDTO } from './../dtos/CreateProduct.dto';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
+  Param,
   Post,
+  Put,
   Req,
   Res,
 } from '@nestjs/common';
-import { ApiBody, ApiHeader, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiHeader,
+  ApiParam,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Response } from 'express';
 import { I18nLang, I18nService } from 'nestjs-i18n';
 import ResponseData from 'src/common/ClassResponseData';
 import { GetAllProductOption } from 'src/configs/product';
 import { ProductService } from '../services/product.service';
+import { updateProductDTO } from '../dtos/UpdateProduct.dto';
 
 @Controller('v1/admin/product')
 @ApiTags('[Admin] Product')
@@ -33,7 +43,7 @@ export class ProductController {
     description: 'số lượng ở một trang',
     required: false,
   })
-  async getAllOption(
+  async getAllProduct(
     @Req() req,
     @Res() res: Response,
     @I18nLang() lang: string,
@@ -46,7 +56,9 @@ export class ProductController {
       name: req.query.name,
     };
 
-    const [data, total] = await this.productService.getAllOption(searchOptions);
+    const [data, total] = await this.productService.getAllProduct(
+      searchOptions,
+    );
 
     const response = new ResponseData(
       true,
@@ -71,14 +83,13 @@ export class ProductController {
     @Body() body: createProductDTO,
     @I18nLang() lang: string,
   ) {
-    const option = '';
-    // await this.productService.createOption(body);
+    const product = await this.productService.create(body);
 
-    if (option) {
+    if (product) {
       const response = new ResponseData(
         true,
         {
-          message: await this.i18n.translate('option.CREATE_OPTION_SUCCESS', {
+          message: await this.i18n.translate('product.CREATE_PRODUCT_SUCCESS', {
             lang,
           }),
         },
@@ -88,7 +99,102 @@ export class ProductController {
     }
 
     throw new HttpException(
-      await this.i18n.translate('option.CREATE_OPTION_FAIL'),
+      await this.i18n.translate('product.CREATE_PRODUCT_FAIL'),
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
+  }
+
+  @Get('/:id')
+  @ApiParam({ name: 'id', description: 'Mã của danh muc' })
+  async getOne(
+    @Req() req,
+    @Res() res: Response,
+    @Param() { id },
+    @I18nLang() lang: string,
+  ) {
+    const product = await this.productService.findOne({
+      relations: [
+        'images',
+        'product_options',
+        'product_options.option',
+        'product_options.value',
+      ],
+      where: { id },
+    });
+
+    if (product) {
+      const response = new ResponseData(
+        true,
+        {
+          product,
+        },
+        null,
+      );
+      return res.status(HttpStatus.OK).json(response);
+    }
+
+    throw new HttpException(
+      await this.i18n.translate('product.UPDATE_PRODUCT_FAIL'),
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
+  }
+
+  @Put('/:id')
+  @ApiParam({ name: 'id', description: 'Mã của danh muc' })
+  @ApiBody({ type: updateProductDTO })
+  async update(
+    @Req() req,
+    @Res() res: Response,
+    @Body() body: updateProductDTO,
+    @Param() { id },
+    @I18nLang() lang: string,
+  ) {
+    const product = await this.productService.update(id, body);
+
+    if (product) {
+      const response = new ResponseData(
+        true,
+        {
+          message: await this.i18n.translate('product.UPDATE_PRODUCT_SUCCESS', {
+            lang,
+          }),
+        },
+        null,
+      );
+      return res.status(HttpStatus.OK).json(response);
+    }
+
+    throw new HttpException(
+      await this.i18n.translate('product.UPDATE_PRODUCT_FAIL'),
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
+  }
+
+  @Delete('/:id')
+  @ApiParam({ name: 'id', description: 'Mã của danh muc' })
+  async delete(
+    @Req() req,
+    @Res() res: Response,
+    @Param() { id },
+    @I18nLang() lang: string,
+  ) {
+    const isDelete = await this.productService.delete(id);
+
+    if (isDelete) {
+      const response = new ResponseData(
+        true,
+        {
+          message: await this.i18n.translate('product.DELETE_PRODUCT_SUCCESS', {
+            lang,
+          }),
+        },
+        null,
+      );
+      return res.status(HttpStatus.OK).json(response);
+    }
+
+    throw new HttpException(
+      await this.i18n.translate('product.DELETE_PRODUCT_FAIL'),
       HttpStatus.UNPROCESSABLE_ENTITY,
     );
   }

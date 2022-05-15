@@ -8,14 +8,16 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Gender } from '../interfaces';
+import { Gender, UserStatus } from '../interfaces';
 import { Receipt } from './../../receipt/entities/Receipt.entity';
 import { RefreshToken } from './RefeshToken.entity';
 import { Role } from './Role.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { Cart } from 'src/modules/cart/entities/Cart.entity';
 
 @Entity('users')
 export class User {
@@ -50,11 +52,18 @@ export class User {
   @Column({ nullable: true })
   avatar: string;
 
-  @Column({ unique: true })
+  @Column()
   phone: string;
 
-  @Column({ unique: true })
+  @Column()
   id_card: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserStatus,
+    default: UserStatus.ACTIVE,
+  })
+  status: UserStatus;
 
   @Column({ type: 'date' })
   date_of_birth: Date;
@@ -72,39 +81,14 @@ export class User {
   @JoinColumn({ name: 'role_id' })
   role: Role;
 
+  @OneToOne(() => Cart, (cart) => cart.user)
+  cart: Cart;
+
   @OneToMany(() => RefreshToken, (refresh_token) => refresh_token.user)
   refresh_token: RefreshToken[];
 
   @OneToMany(() => Receipt, (receipt) => receipt.user)
   receipts: Receipt[];
-
-  // @ManyToMany(() => Building, (building) => building.users)
-  // @JoinTable({
-  //   name: 'user_building',
-  //   joinColumn: {
-  //     name: 'user_id',
-  //     referencedColumnName: 'id',
-  //   },
-  //   inverseJoinColumn: {
-  //     name: 'building_id',
-  //     referencedColumnName: 'id',
-  //   },
-  // })
-  // buildings: Building[];
-
-  // @ManyToMany(() => Role, (role) => role.users)
-  // @JoinTable({
-  //   name: 'user_role',
-  //   joinColumn: {
-  //     name: 'user_id',
-  //     referencedColumnName: 'id',
-  //   },
-  //   inverseJoinColumn: {
-  //     name: 'role_id',
-  //     referencedColumnName: 'id',
-  //   },
-  // })
-  // roles: Role[];
 
   @BeforeInsert()
   async setPassword(password: string) {

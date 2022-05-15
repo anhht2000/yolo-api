@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -11,9 +12,13 @@ import {
 import * as slug from 'slug';
 import { Option } from './Option.entity';
 import { Product } from 'src/modules/product/entities/Product.entity';
+import { ReceiptProduct } from 'src/modules/receipt/entities/ReceiptProduct.entity';
+import { Cart } from 'src/modules/cart/entities/Cart.entity';
+import { CartProduct } from 'src/modules/cart/entities/CartProduct.entity';
 
 @Entity('product_option')
 export class ProductOption {
+  [x: string]: any;
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -31,4 +36,13 @@ export class ProductOption {
   @ManyToOne(() => OptionValue, (value) => value.product_options)
   @JoinColumn({ name: 'value_id' })
   value: OptionValue;
+
+  @OneToMany(() => CartProduct, (cart_product) => cart_product.product_option)
+  cart_products: CartProduct[];
+
+  @OneToMany(
+    () => ReceiptProduct,
+    (receipt_product) => receipt_product.product_option,
+  )
+  receipt_products: ReceiptProduct[];
 }

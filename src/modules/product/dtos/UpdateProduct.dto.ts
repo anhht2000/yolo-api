@@ -6,18 +6,18 @@ import { OptionsUpdate } from 'src/configs/product';
 export class updateProductDTO extends createProductDTO {
   @ApiProperty({
     required: true,
-    default: [],
+    default: JSON.stringify([]),
   })
   @IsNotEmpty()
-  options: OptionsUpdate[];
+  options: string;
 
   @ApiProperty({
     required: true,
-    default: [
+    default: JSON.stringify([
       { id: 2, path: 'https://picsum.photos/200/300' },
       { id: 3, path: 'https://picsum.photos/200/300' },
-    ],
+    ]),
   })
   @IsNotEmpty()
-  images: any[];
+  images: string;
 }
