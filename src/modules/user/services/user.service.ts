@@ -8,6 +8,8 @@ import { FindOneOptions, getConnection, Repository } from 'typeorm';
 import { CreateUserDTO } from '../dtos/create-user.dto';
 import { User } from '../entities/User.entity';
 import { I18nService } from 'nestjs-i18n';
+import { v4 as uuidv4 } from 'uuid';
+import { Gender } from 'src/configs/enum';
 
 @Injectable()
 export class UserService {
@@ -37,10 +39,10 @@ export class UserService {
       first_name,
       last_name,
       address,
-      gender,
+      gender: gender || Gender.MALE,
       phone,
-      id_card,
-      date_of_birth,
+      id_card: id_card || uuidv4(),
+      date_of_birth: date_of_birth || new Date(),
     });
 
     return user;

@@ -25,8 +25,6 @@ export class CreateUserDTO {
   address: string;
 
   @ApiProperty({ default: 'male' })
-  @IsNotEmpty()
-  @IsEnum(Gender)
   gender: Gender;
 
   // @ApiProperty({
@@ -40,11 +38,8 @@ export class CreateUserDTO {
   phone: string;
 
   @ApiProperty({ default: '2000879546541' })
-  @IsNotEmpty()
   id_card: string;
 
   @ApiProperty({ default: '2000-12-14' })
-  @IsNotEmpty()
-  @IsDateString()
   date_of_birth: Date;
 }
