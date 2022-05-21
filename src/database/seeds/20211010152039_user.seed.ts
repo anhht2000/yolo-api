@@ -4,7 +4,7 @@ import { User } from 'src/modules/user/entities/User.entity';
 import { Gender } from 'src/modules/user/interfaces';
 import { Connection } from 'typeorm';
 import { Factory, Seeder } from 'typeorm-seeding';
-import { ROLES } from './../../configs/roles';
+import { ROLES } from '../../configs/roles';
 
 export default class CreateUsers implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {

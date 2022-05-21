@@ -31,7 +31,7 @@ export class AuthUserController {
     private i18n: I18nService,
   ) {}
 
-  @Post()
+  @Post('/register')
   @ApiBody({ type: CreateUserDTO })
   async create(
     @Req() req,
@@ -94,12 +94,16 @@ export class AuthUserController {
   @UseGuards(LocalUserAuthGuard)
   @ApiBody({ type: loginDTO })
   async login(@Req() req, @Res() res: Response, @I18nLang() lang: string) {
-    const token = (await this.authService.login(req.user))?.access_token;
+    const data = await this.authService.login(req.user);
+    const token = data?.access_token;
+    const user = await this.userService.findUser({
+      where: { email: data.user?.email },
+    });
 
     const response = new ResponseData(
       true,
       {
-        // user: this.authService.login(req.user),
+        user,
         token,
       },
       null,

@@ -32,6 +32,7 @@ export class AuthUserService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
+
     const isTrue = await bcrypt.compare(pass, user.password);
     if (!isTrue) {
       throw new HttpException(
@@ -58,6 +59,7 @@ export class AuthUserService {
     };
 
     return {
+      user,
       access_token: this.jwtService.sign(payload),
     };
   }
