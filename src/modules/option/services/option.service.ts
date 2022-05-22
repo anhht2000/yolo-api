@@ -1,3 +1,4 @@
+import { OptionValue } from 'src/modules/option/entities/OptionValue.entity';
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { I18nService } from 'nestjs-i18n';
@@ -71,6 +72,9 @@ export class OptionService {
     const queryRunner = getConnection().createQueryRunner();
     await queryRunner.startTransaction();
     try {
+      queryRunner.manager.delete(OptionValue, {
+        option: { id: optionId },
+      });
       queryRunner.manager.delete(Option, { id: optionId });
       await queryRunner.commitTransaction();
     } catch (error) {

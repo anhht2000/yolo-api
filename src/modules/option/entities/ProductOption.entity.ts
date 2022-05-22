@@ -29,15 +29,21 @@ export class ProductOption {
   @JoinColumn({ name: 'product_id' })
   product: Product;
 
-  @ManyToOne(() => Option, (option) => option.product_options)
+  @ManyToOne(() => Option, (option) => option.product_options, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'option_id' })
   option: Option;
 
-  @ManyToOne(() => OptionValue, (value) => value.product_options)
+  @ManyToOne(() => OptionValue, (value) => value.product_options, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'value_id' })
   value: OptionValue;
 
-  @OneToMany(() => CartProduct, (cart_product) => cart_product.product_option)
+  @OneToMany(() => CartProduct, (cart_product) => cart_product.product_option, {
+    onDelete: 'CASCADE',
+  })
   cart_products: CartProduct[];
 
   @OneToMany(

@@ -22,11 +22,15 @@ export class OptionValue {
   @Column()
   name: string;
 
-  @ManyToOne(() => Option, (option) => option.values)
+  @ManyToOne(() => Option, (option) => option.values, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'option_id' })
   option: Option;
 
-  @OneToMany(() => ProductOption, (product_option) => product_option.value)
+  @OneToMany(() => ProductOption, (product_option) => product_option.value, {
+    onDelete: 'CASCADE',
+  })
   product_options: ProductOption[];
 
   @BeforeInsert()
