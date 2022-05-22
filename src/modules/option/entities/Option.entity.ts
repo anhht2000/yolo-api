@@ -24,10 +24,14 @@ export class Option {
   @Column({ type: 'enum', enum: OptionType, default: OptionType.TEXT })
   type: OptionType;
 
-  @OneToMany(() => OptionValue, (value) => value.option)
+  @OneToMany(() => OptionValue, (value) => value.option, {
+    onDelete: 'CASCADE',
+  })
   values: OptionValue[];
 
-  @OneToMany(() => ProductOption, (product_option) => product_option.option)
+  @OneToMany(() => ProductOption, (product_option) => product_option.option, {
+    onDelete: 'CASCADE',
+  })
   product_options: ProductOption[];
 
   @BeforeInsert()

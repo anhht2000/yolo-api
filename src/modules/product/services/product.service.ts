@@ -52,6 +52,34 @@ export class ProductService {
     return this.productRepository.findOne(options);
   }
 
+  async getToShow(option: any) {
+    const join = {
+      alias: 'product',
+    };
+
+    const where = (qb: SelectQueryBuilder<Product>) => {
+      if (option) {
+        qb.where('product.label = :lab', {
+          lab: `${option}`,
+        });
+      }
+    };
+
+    return this.productRepository.find({
+      join,
+      relations: [
+        'images',
+        'product_options',
+        'product_options.option',
+        'product_options.value',
+      ],
+      where,
+      order: {
+        id: 'DESC',
+      },
+    });
+  }
+
   async getAllProduct(searchOptions: GetAllProductOption) {
     const join = {
       alias: 'product',

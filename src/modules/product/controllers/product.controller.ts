@@ -75,6 +75,26 @@ export class ProductController {
     res.status(HttpStatus.OK).json(response);
   }
 
+  @Get('/show')
+  @ApiQuery({ name: 'option', description: 'trang hiện tại', required: false })
+  async getShowHome(
+    @Req() req,
+    @Res() res: Response,
+    @I18nLang() lang: string,
+  ) {
+    const data = await this.productService.getToShow(req.query.option);
+
+    const response = new ResponseData(
+      true,
+      {
+        data,
+      },
+      null,
+    );
+
+    res.status(HttpStatus.OK).json(response);
+  }
+
   @Post()
   @ApiBody({ type: createProductDTO })
   async create(
