@@ -5,4 +5,7 @@ export class createOptionDTO {
   @ApiProperty({ default: '12345678' })
   @IsNotEmpty()
   name: string;
+
+  @ApiProperty({ default: 'text' })
+  meta: string;
 }

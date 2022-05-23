@@ -83,15 +83,22 @@ export class ProductService {
   async getAllProduct(searchOptions: GetAllProductOption) {
     const join = {
       alias: 'product',
-      // leftJoinAndSelect: {
-      //   value: 'option.values',
-      // },
+      leftJoinAndSelect: {
+        productOption: 'product.product_options',
+        option: 'productOption.option',
+        value: 'productOption.value',
+      },
     };
 
     const where = (qb: SelectQueryBuilder<Product>) => {
       if (searchOptions.name) {
         qb.where('product.name LIKE :fullName', {
           fullName: `%${searchOptions.name}%`,
+        });
+      }
+      if (searchOptions.options && searchOptions.options.length > 0) {
+        qb.where('value.id IN (:opts)', {
+          opts: searchOptions.options,
         });
       }
     };

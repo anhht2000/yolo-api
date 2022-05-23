@@ -49,17 +49,17 @@ export class OptionService {
   }
 
   createOption(data: createOptionDTO) {
-    const { name } = data;
+    const { name, meta } = data;
     const option = new Option();
-    Object.assign(option, { name });
+    Object.assign(option, { name, type: meta });
 
     return this.optionRepository.save(option);
   }
 
   async updateOption(optionId: number, data: updateOptionDTO) {
     const option = await this.optionRepository.findOne(optionId);
-    const { name } = data;
-    Object.assign(option, { name });
+    const { name, meta } = data;
+    Object.assign(option, { name, type: meta });
 
     return this.optionRepository.save(option);
   }

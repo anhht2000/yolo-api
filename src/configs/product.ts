@@ -2,6 +2,7 @@ export interface GetAllProductOption {
   name?: string;
   page: number;
   limit: number;
+  options?: number[];
 }
 
 export enum ProductStatus {
