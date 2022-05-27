@@ -1,3 +1,4 @@
+import { JwtUserAuthGuard } from 'src/modules/user/userAuth/guards/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -10,8 +11,9 @@ import {
   Put,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { Response } from 'express';
 import { I18nLang, I18nService } from 'nestjs-i18n';
 import ResponseData from 'src/common/ClassResponseData';
@@ -67,6 +69,8 @@ export class ReceiptController {
   }
 
   @Post()
+  @UseGuards(JwtUserAuthGuard)
+  @ApiBearerAuth()
   @ApiBody({ type: createReceiptDTO })
   async create(
     @Req() req,

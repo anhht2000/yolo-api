@@ -14,5 +14,8 @@
   "UPDATE_VALUE_SUCCESS": "Cập nhật nội dung danh mục thành công",
   "UPDATE_VALUE_FAIL": "Cập nhật nội dung danh mục thất bại",
   "DELETE_VALUE_SUCCESS": "Xóa nội dung danh mục thành công",
-  "DELETE_VALUE_FAIL": "Xóa nội dung danh mục thất bại"
+  "DELETE_VALUE_FAIL": "Xóa nội dung danh mục thất bại",
+  "CREATE_RECEIPT_SUCCESS": "Đặt hàng thành công",
+  "CREATE_RECEIPT_FAIL": "Đặt hàng thất bại",
+  "UPDATE_RECEIPT_SUCCESS": "Cập nhật đơn hàng thành công"
 }

@@ -6,12 +6,15 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { Receipt } from './Receipt.entity';
+import { ReceiptProductOption } from './ReceiptProductOption.entity';
 
 @Entity('receipt_products')
 export class ReceiptProduct {
@@ -25,9 +28,9 @@ export class ReceiptProduct {
   @JoinColumn({ name: 'receipt_id' })
   receipt: Receipt;
 
-  @ManyToOne(
-    () => ProductOption,
-    (productOption) => productOption.receipt_products,
+  @OneToMany(
+    () => ReceiptProductOption,
+    (receiptproductOption) => receiptproductOption.receipt_product,
   )
-  product_option: ProductOption;
+  receipt_product_options: ReceiptProductOption[];
 }

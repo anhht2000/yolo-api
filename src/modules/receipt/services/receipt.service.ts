@@ -9,6 +9,7 @@ import { Receipt } from '../entities/Receipt.entity';
 import { createReceiptDTO } from './../dtos/CreateReceipt.dto';
 import { User } from 'src/modules/user/entities/User.entity';
 import { ReceiptProduct } from '../entities/ReceiptProduct.entity';
+import { ReceiptProductOption } from '../entities/ReceiptProductOption.entity';
 
 @Injectable()
 export class ReceiptService {
@@ -51,37 +52,63 @@ export class ReceiptService {
     await queryRunner.startTransaction();
     let total_price = 0;
     for (const product of products) {
-      const productOption = await getConnection().manager.findOne(
-        ProductOption,
-        { where: { product: { id: product.productOptionId } } },
-      );
-      total_price += productOption.price;
+      total_price += product.price;
     }
 
     let receipt = new Receipt();
     const user = await getConnection().manager.findOne(User, {
       where: { email: username },
     });
-    Object.assign(receipt, { description, address, user, total_price });
+    Object.assign(receipt, {
+      description: description || '',
+      address: address || user.address,
+      user,
+      total_price,
+    });
     try {
       //create receipt
       receipt = await queryRunner.manager.save(receipt);
+
       //create receipt product
       for (const product of products) {
-        const receiptProduct = new ReceiptProduct();
-        const productOption = await getConnection().manager.findOne(
-          ProductOption,
-          { where: { product: { id: product.productOptionId } } },
-        );
+        let receiptProduct = new ReceiptProduct();
+        const receiptProductOptionData = [];
         Object.assign(receiptProduct, {
           receipt,
-          product_option: productOption,
           quantity: Number(product.quantity),
         });
+        receiptProduct = await queryRunner.manager.save(receiptProduct);
+        for (const productOptionId of product.productOptionId) {
+          const productOption = await getConnection().manager.findOne(
+            ProductOption,
+            { where: { id: productOptionId } },
+          );
+
+          if (productOption) {
+            let receiptProductOption = new ReceiptProductOption();
+
+            Object.assign(receiptProductOption, {
+              product_option: productOption,
+              receipt_product: receiptProduct,
+              quantity: 0,
+            });
+
+            receiptProductOption = await queryRunner.manager.save(
+              receiptProductOption,
+            );
+
+            if (receiptProductOption) {
+              receiptProductOptionData.push(receiptProductOption);
+            }
+          }
+        }
       }
 
       await queryRunner.commitTransaction();
+      return true;
     } catch (error) {
+      console.log('re', error.message);
+
       if (error instanceof HttpException) {
         await queryRunner.rollbackTransaction();
         throw new HttpException(error.message, error.getStatus());

@@ -1,4 +1,6 @@
 export interface ProductI {
-  productOptionId: number;
-  quantity;
+  [x: string]: number;
+  productOptionId: any;
+  quantity: number;
+  price: number;
 }
