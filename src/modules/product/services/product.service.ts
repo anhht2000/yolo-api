@@ -306,7 +306,7 @@ export class ProductService {
           value,
           option,
           product,
-          price,
+          price: price || 0,
         };
         const dataOption = new ProductOption();
         Object.assign(dataOption, data);
@@ -317,6 +317,8 @@ export class ProductService {
 
       return true;
     } catch (error) {
+      console.log('aaa', error.message);
+
       if (error instanceof HttpException) {
         await queryRunner.rollbackTransaction();
         throw new HttpException(error.message, error.getStatus());

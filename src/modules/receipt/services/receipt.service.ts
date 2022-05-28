@@ -22,9 +22,13 @@ export class ReceiptService {
   async getAllReceipt(searchOptions: any) {
     const join = {
       alias: 'receipt',
-      // leftJoinAndSelect: {
-      //   value: 'option.values',
-      // },
+      leftJoinAndSelect: {
+        receipt_product: 'receipt.receipt_products',
+        receipt_product_options: 'receipt_product.receipt_product_options',
+        product_option: 'receipt_product_options.product_option',
+        value: 'product_option.value',
+        user: 'receipt.user',
+      },
     };
 
     const where = (qb: SelectQueryBuilder<Receipt>) => {

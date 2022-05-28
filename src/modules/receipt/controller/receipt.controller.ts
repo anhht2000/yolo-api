@@ -21,7 +21,7 @@ import { createReceiptDTO } from '../dtos/CreateReceipt.dto';
 import { updateReceiptDTO } from '../dtos/UpdateReceipt.dto';
 import { ReceiptService } from '../services/receipt.service';
 
-@Controller('receipt')
+@Controller('v1/admin/receipt')
 export class ReceiptController {
   constructor(
     private receiptService: ReceiptService,
@@ -84,7 +84,7 @@ export class ReceiptController {
       const response = new ResponseData(
         true,
         {
-          message: await this.i18n.translate('product.CREATE_PRODUCT_SUCCESS', {
+          message: await this.i18n.translate('product.CREATE_RECEIPT_SUCCESS', {
             lang,
           }),
         },
@@ -94,7 +94,7 @@ export class ReceiptController {
     }
 
     throw new HttpException(
-      await this.i18n.translate('product.CREATE_PRODUCT_FAIL'),
+      await this.i18n.translate('product.CREATE_RECEIPT_FAIL'),
       HttpStatus.UNPROCESSABLE_ENTITY,
     );
   }
