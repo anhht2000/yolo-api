@@ -43,6 +43,7 @@ export class ProductController {
     description: 'số lượng ở một trang',
     required: false,
   })
+  @ApiQuery({ name: 'options', isArray: true, required: false })
   async getAllProduct(
     @Req() req,
     @Res() res: Response,
@@ -53,6 +54,7 @@ export class ProductController {
     const searchOptions: GetAllProductOption = {
       page,
       limit,
+      options: req.query.options ? JSON.parse(req.query.options) : null,
       name: req.query.name,
     };
 

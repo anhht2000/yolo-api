@@ -1,15 +1,21 @@
-import { ReceiptProduct } from './../../receipt/entities/ReceiptProduct.entity';
-import { Receipt } from './../../receipt/entities/Receipt.entity';
-import { ROLES } from './../../../configs/roles';
-import { Role } from './../entities/Role.entity';
+import { ChangeStatusDTO } from './../dtos/ChangeStatus.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, getConnection, Repository } from 'typeorm';
-import { CreateUserDTO } from '../dtos/create-user.dto';
-import { User } from '../entities/User.entity';
 import { I18nService } from 'nestjs-i18n';
-import { v4 as uuidv4 } from 'uuid';
 import { Gender } from 'src/configs/enum';
+import { User } from 'src/modules/user/entities/User.entity';
+import {
+  FindOneOptions,
+  getConnection,
+  Repository,
+  SelectQueryBuilder,
+} from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
+import { CreateUserDTO } from '../dtos/create-user.dto';
+import { ROLES } from './../../../configs/roles';
+import { Receipt } from './../../receipt/entities/Receipt.entity';
+import { ReceiptProduct } from './../../receipt/entities/ReceiptProduct.entity';
+import { Role } from './../entities/Role.entity';
 
 @Injectable()
 export class UserService {
@@ -51,6 +57,43 @@ export class UserService {
   async findUser(options: FindOneOptions) {
     return await this.usersRepository.findOne(options);
     // return { email: 'user', password: 'ojsdofijsd' };
+  }
+
+  async findAllUser(limit: number, page: number, options?: any) {
+    const join = {
+      alias: 'user',
+      leftJoinAndSelect: {
+        receipt: 'user.receipts',
+        // receipt_product_options: 'receipt_product.receipt_product_options',
+        // product_option: 'receipt_product_options.product_option',
+        // value: 'product_option.value',
+        // user: 'receipt.user',
+        // product: 'product_option.product',
+        // product_img: 'product.images',
+      },
+    };
+
+    const where = (qb: SelectQueryBuilder<User>) => {
+      if (!!options.name) {
+        // qb.andWhere(
+        //   "CONCAT(user.first_name, ' ', user.last_name) LIKE :fullName",
+        //   { fullName: `%${options.name}%` },
+        // );
+        qb.andWhere('user.email LIKE :fullName', {
+          fullName: `%${options.name}%`,
+        });
+      }
+    };
+
+    return this.usersRepository.findAndCount({
+      join,
+      where,
+      order: {
+        id: 'DESC',
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
   }
 
   async findAdmin(options: FindOneOptions) {
@@ -138,6 +181,13 @@ export class UserService {
       });
       user.role = userRole;
     }
+
+    return await this.usersRepository.save(user);
+  }
+
+  async changeStatus(userId: number, data: ChangeStatusDTO) {
+    const user = await this.usersRepository.findOne(userId);
+    Object.assign(user, { status: data.status });
 
     return await this.usersRepository.save(user);
   }

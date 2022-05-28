@@ -15,6 +15,7 @@ import { Product } from 'src/modules/product/entities/Product.entity';
 import { ReceiptProduct } from 'src/modules/receipt/entities/ReceiptProduct.entity';
 import { Cart } from 'src/modules/cart/entities/Cart.entity';
 import { CartProduct } from 'src/modules/cart/entities/CartProduct.entity';
+import { ReceiptProductOption } from 'src/modules/receipt/entities/ReceiptProductOption.entity';
 
 @Entity('product_option')
 export class ProductOption {
@@ -47,8 +48,8 @@ export class ProductOption {
   cart_products: CartProduct[];
 
   @OneToMany(
-    () => ReceiptProduct,
+    () => ReceiptProductOption,
     (receipt_product) => receipt_product.product_option,
   )
-  receipt_products: ReceiptProduct[];
+  receipt_product_options: ReceiptProductOption[];
 }

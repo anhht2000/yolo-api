@@ -12,8 +12,8 @@ export class createReceiptDTO {
   @ApiProperty({
     required: true,
     default: [
-      { productOptionId: 1, quantity: 3 },
-      { productOptionId: 2, quantity: 4 },
+      { productOptionId: [1, 2], quantity: 3, price: 200000 },
+      { productOptionId: [2], quantity: 4, price: 500000 },
     ],
   })
   @IsNotEmpty()
