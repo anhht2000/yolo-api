@@ -1,5 +1,5 @@
 export const jwtConstants = {
   secret: 'secretKey',
-  expired: '15min',
+  expired: '7d',
 };
 export const ROLES_KEY = 'roles';

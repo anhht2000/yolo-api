@@ -28,6 +28,8 @@ export class ReceiptService {
         product_option: 'receipt_product_options.product_option',
         value: 'product_option.value',
         user: 'receipt.user',
+        product: 'product_option.product',
+        product_img: 'product.images',
       },
     };
 
@@ -79,6 +81,7 @@ export class ReceiptService {
         const receiptProductOptionData = [];
         Object.assign(receiptProduct, {
           receipt,
+          unit_price: product.price,
           quantity: Number(product.quantity),
         });
         receiptProduct = await queryRunner.manager.save(receiptProduct);
