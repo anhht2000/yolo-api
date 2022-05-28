@@ -10,6 +10,7 @@ import { createReceiptDTO } from './../dtos/CreateReceipt.dto';
 import { User } from 'src/modules/user/entities/User.entity';
 import { ReceiptProduct } from '../entities/ReceiptProduct.entity';
 import { ReceiptProductOption } from '../entities/ReceiptProductOption.entity';
+import { ChangeStatusDTO } from 'src/modules/user/dtos/ChangeStatus.dto';
 
 @Injectable()
 export class ReceiptService {
@@ -50,6 +51,46 @@ export class ReceiptService {
       skip: (searchOptions.page - 1) * searchOptions.limit,
       take: searchOptions.limit,
     });
+  }
+
+  async getAllReceiptUser(searchOptions: any) {
+    const join = {
+      alias: 'receipt',
+      leftJoinAndSelect: {
+        receipt_product: 'receipt.receipt_products',
+        receipt_product_options: 'receipt_product.receipt_product_options',
+        product_option: 'receipt_product_options.product_option',
+        value: 'product_option.value',
+        user: 'receipt.user',
+        product: 'product_option.product',
+        product_img: 'product.images',
+      },
+    };
+
+    const where = (qb: SelectQueryBuilder<Receipt>) => {
+      if (searchOptions.username) {
+        qb.where('user.email LIKE :fullName', {
+          fullName: `%${searchOptions.username}%`,
+        });
+      }
+    };
+
+    return this.receiptRepository.findAndCount({
+      join,
+      where,
+      order: {
+        id: 'DESC',
+      },
+      skip: (searchOptions.page - 1) * searchOptions.limit,
+      take: searchOptions.limit,
+    });
+  }
+
+  async changeStatus(receiptId: number, data: ChangeStatusDTO) {
+    const receipt = await this.receiptRepository.findOne(receiptId);
+    Object.assign(receipt, { status: data.status });
+
+    return await this.receiptRepository.save(receipt);
   }
 
   async create(username: string, data: createReceiptDTO) {

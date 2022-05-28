@@ -20,6 +20,7 @@ import ResponseData from 'src/common/ClassResponseData';
 import { createReceiptDTO } from '../dtos/CreateReceipt.dto';
 import { updateReceiptDTO } from '../dtos/UpdateReceipt.dto';
 import { ReceiptService } from '../services/receipt.service';
+import { ChangeStatusDTO } from 'src/modules/user/dtos/ChangeStatus.dto';
 
 @Controller('v1/admin/receipt')
 export class ReceiptController {
@@ -50,6 +51,49 @@ export class ReceiptController {
     };
 
     const [data, total] = await this.receiptService.getAllReceipt(
+      searchOptions,
+    );
+
+    const response = new ResponseData(
+      true,
+      {
+        data,
+        page,
+        limit,
+        total: Math.ceil(total / limit),
+        total_record: total,
+      },
+      null,
+    );
+
+    res.status(HttpStatus.OK).json(response);
+  }
+
+  @Get('/user')
+  @UseGuards(JwtUserAuthGuard)
+  @ApiBearerAuth()
+  @ApiQuery({ name: 'name', required: false })
+  @ApiQuery({ name: 'page', description: 'trang hiện tại', required: false })
+  @ApiQuery({
+    name: 'limit',
+    description: 'số lượng ở một trang',
+    required: false,
+  })
+  async getAllProductUser(
+    @Req() req,
+    @Res() res: Response,
+    @I18nLang() lang: string,
+  ) {
+    const limit = parseInt(req.query.limit || process.env.DEFAUT_PERPAGE);
+    const page = parseInt(req.query.page || process.env.DEFAUT_PAGE);
+    const searchOptions: any = {
+      page,
+      limit,
+      username: req.user.username,
+      name: req.query.name,
+    };
+
+    const [data, total] = await this.receiptService.getAllReceiptUser(
       searchOptions,
     );
 
@@ -125,6 +169,34 @@ export class ReceiptController {
 
     throw new HttpException(
       await this.i18n.translate('receipt.UPDATE_RECEIPT_FAIL'),
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
+  }
+
+  @Put('/change-status/:id')
+  @ApiBody({ type: ChangeStatusDTO })
+  async changeStatus(
+    @Req() req,
+    @Res() res: Response,
+    @Body() body: ChangeStatusDTO,
+    @Param() { id },
+    @I18nLang() lang: string,
+  ) {
+    const product = await this.receiptService.changeStatus(id, body);
+
+    if (product) {
+      const response = new ResponseData(
+        true,
+        {
+          message: 'Đổi trạng hóa đơn thành công',
+        },
+        null,
+      );
+      return res.status(HttpStatus.OK).json(response);
+    }
+
+    throw new HttpException(
+      'Đổi trạng thái  hóa đơn thất bại ',
       HttpStatus.UNPROCESSABLE_ENTITY,
     );
   }

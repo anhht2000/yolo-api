@@ -32,6 +32,9 @@ export class Receipt {
   @Column()
   total_price: number;
 
+  @Column({ default: 'waiting', nullable: true })
+  status: string;
+
   @ManyToOne(() => User, (user) => user.receipts)
   @JoinColumn({ name: 'user_id' })
   user: User;
