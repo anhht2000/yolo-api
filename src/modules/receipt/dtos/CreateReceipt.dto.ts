@@ -9,6 +9,9 @@ export class createReceiptDTO {
   @ApiProperty({ default: 'Ngoại giao đoàn' })
   address: string;
 
+  @ApiProperty({ default: 'banking' })
+  method: string;
+
   @ApiProperty({
     required: true,
     default: [

@@ -30,6 +30,9 @@ export class Receipt {
   address: string;
 
   @Column()
+  method: string;
+
+  @Column()
   total_price: number;
 
   @Column({ default: 'waiting', nullable: true })
