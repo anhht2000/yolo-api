@@ -229,4 +229,44 @@ export class ReceiptController {
       HttpStatus.UNPROCESSABLE_ENTITY,
     );
   }
+
+  //VNPAY
+  @Get('/list-vnpay')
+  @ApiParam({ name: 'id', description: 'Mã của danh muc' })
+  async listReceipt(
+    @Req() req,
+    @Res() res: Response,
+    @Param() { id },
+    @I18nLang() lang: string,
+  ) {
+    res.render('orderlist', { title: 'Danh sách đơn hàng' });
+  }
+
+  @Get('/create_payment_url')
+  async creat_payment_url(
+    @Req() req,
+    @Res() res: Response,
+    @Param() { id },
+    @I18nLang() lang: string,
+  ) {
+    const isDelete = await this.receiptService.delete(id);
+
+    if (isDelete) {
+      const response = new ResponseData(
+        true,
+        {
+          message: await this.i18n.translate('receipt.DELETE_RECEIPT_SUCCESS', {
+            lang,
+          }),
+        },
+        null,
+      );
+      return res.status(HttpStatus.OK).json(response);
+    }
+
+    throw new HttpException(
+      await this.i18n.translate('receipt.DELETE_RECEIPT_FAIL'),
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
+  }
 }

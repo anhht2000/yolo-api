@@ -44,6 +44,8 @@ export class ProductController {
     required: false,
   })
   @ApiQuery({ name: 'options', isArray: true, required: false })
+  @ApiQuery({ name: 'order', required: false })
+  @ApiQuery({ name: 'ordername', required: false })
   async getAllProduct(
     @Req() req,
     @Res() res: Response,
@@ -56,6 +58,8 @@ export class ProductController {
       limit,
       options: req.query.options ? JSON.parse(req.query.options) : null,
       name: req.query.name,
+      order: req.query.order || 'DESC',
+      ordername: req.query.ordername || 'id',
     };
 
     const [data, total] = await this.productService.getAllProduct(

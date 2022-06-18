@@ -95,8 +95,12 @@ export class ProductService {
         qb.where('product.name LIKE :fullName', {
           fullName: `%${searchOptions.name}%`,
         });
-      }
-      if (searchOptions.options && searchOptions.options.length > 0) {
+        if (searchOptions.options && searchOptions.options.length > 0) {
+          qb.andWhere('value.id IN (:opts)', {
+            opts: searchOptions.options,
+          });
+        }
+      } else if (searchOptions.options && searchOptions.options.length > 0) {
         qb.where('value.id IN (:opts)', {
           opts: searchOptions.options,
         });
@@ -113,7 +117,7 @@ export class ProductService {
       ],
       where,
       order: {
-        id: 'DESC',
+        [searchOptions.ordername]: searchOptions?.order,
       },
       skip: (searchOptions.page - 1) * searchOptions.limit,
       take: searchOptions.limit,
