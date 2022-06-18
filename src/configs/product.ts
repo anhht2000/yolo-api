@@ -3,6 +3,8 @@ export interface GetAllProductOption {
   page: number;
   limit: number;
   options?: number[];
+  order: 'DESC' | 'ASC';
+  ordername: any;
 }
 
 export enum ProductStatus {
