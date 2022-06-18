@@ -94,7 +94,7 @@ export class ReceiptService {
   }
 
   async create(username: string, data: createReceiptDTO) {
-    const { description, address, products } = data;
+    const { description, address, products, method } = data;
     const queryRunner = getConnection().createQueryRunner();
     await queryRunner.startTransaction();
     let total_price = 0;
@@ -111,6 +111,7 @@ export class ReceiptService {
       address: address || user.address,
       user,
       total_price,
+      method,
     });
     try {
       //create receipt
