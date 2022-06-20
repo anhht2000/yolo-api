@@ -26,6 +26,9 @@ export class ProductOption {
   @Column()
   price: number;
 
+  @Column()
+  number: number;
+
   @ManyToOne(() => Product, (product) => product.product_options)
   @JoinColumn({ name: 'product_id' })
   product: Product;

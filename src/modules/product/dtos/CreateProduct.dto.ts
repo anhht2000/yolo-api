@@ -10,6 +10,10 @@ export class createProductDTO {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({ required: true, default: 20 })
+  @IsNotEmpty()
+  number: number;
+
   @ApiProperty({ default: '' })
   description: string;
 
