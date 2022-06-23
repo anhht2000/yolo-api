@@ -126,7 +126,7 @@ export class ProductService {
 
   async update(productId: number, data: updateProductDTO) {
     let product = await this.asignProduct(data, true, productId);
-    const { options, images } = data;
+    const { options, images, number } = data;
     const queryRunner = getConnection().createQueryRunner();
     await queryRunner.startTransaction();
     try {
@@ -220,6 +220,7 @@ export class ProductService {
             value,
             option,
             product,
+            number,
             price: price || 0,
           };
           Object.assign(productOtion, data);
@@ -228,6 +229,7 @@ export class ProductService {
           const data: Partial<ProductOption> = {
             value,
             option,
+            number,
             product,
             price: price || 0,
           };
@@ -277,7 +279,7 @@ export class ProductService {
 
   async create(data: createProductDTO) {
     let product = await this.asignProduct(data, false, null);
-    const { options, images } = data;
+    const { options, images, number } = data;
 
     const queryRunner = getConnection().createQueryRunner();
     await queryRunner.startTransaction();
@@ -310,6 +312,7 @@ export class ProductService {
           value,
           option,
           product,
+          number,
           price: price || 0,
         };
         const dataOption = new ProductOption();
@@ -321,8 +324,6 @@ export class ProductService {
 
       return true;
     } catch (error) {
-      console.log('aaa', error.message);
-
       if (error instanceof HttpException) {
         await queryRunner.rollbackTransaction();
         throw new HttpException(error.message, error.getStatus());

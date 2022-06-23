@@ -149,6 +149,9 @@ export class ReceiptService {
             if (receiptProductOption) {
               receiptProductOptionData.push(receiptProductOption);
             }
+            (productOption.number =
+              productOption.number - Number(product.quantity)),
+              await queryRunner.manager.save(productOption);
           }
         }
       }
